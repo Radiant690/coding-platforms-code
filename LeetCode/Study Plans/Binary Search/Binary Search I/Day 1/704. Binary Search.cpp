@@ -1,22 +1,28 @@
-class Solution
-{
+/** 
+ * Forward declaration of guess API.
+ * @param  num   your guess
+ * @return 	     -1 if num is higher than the picked number
+ *			      1 if num is lower than the picked number
+ *               otherwise return 0
+ * int guess(int num);
+ */
+
+class Solution {
 public:
-    int search(vector<int> &nums, int target)
-    {
-        int mid, start = 0, end = nums.size() - 1;
-        while (start <= end)
-        {
-            mid = start + (end - start) / 2;
-            // Here to make operations faster we can evaluate mid = (start + end) >>> 1;
-            if (nums[mid] == target)
-                return mid;
-            if (target < nums[mid])
-                end = mid - 1;
-            else
-                start = mid + 1;
+    int guessNumber(int n) {
+        int maxNumber = n, minNumber = 1;
+        while (true) {
+            int meanNumber = (maxNumber - minNumber) / 2 + minNumber;
+            // Do NOT use (maxNumber+minNumber)/2 in case of over flow
+            int res = guess(meanNumber);
+            if (res == 0) { 
+                return meanNumber;
+            } else if (res == 1) {
+                minNumber = meanNumber + 1;
+            } else {
+                maxNumber = meanNumber - 1;
+            }
         }
-        return -1;
+    
     }
 };
-
-// Note: check the mid operation overflow problem by avoiding direct evaluation of mid to start+end/2;
